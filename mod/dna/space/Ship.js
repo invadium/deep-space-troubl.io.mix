@@ -14,6 +14,10 @@ class Ship extends Platform {
 
         this.attach( new dna.pod.Thruster() )
         this.attach( new dna.pod.PlayerControl() )
+        this.attach( new dna.pod.Friction({
+            linear:  120,
+            angular: 4 * HALF_PI,
+        }) )
     }
 
     capture() {
@@ -23,22 +27,12 @@ class Ship extends Platform {
         env.playerShip = this
         this.playerControl.activate()
 
-        lab.port.follow(this, true)
+        lab.port.follow(this.pos, true)
     }
 
     release() {
         this.bot = true
         this.playerControl.deactivate()
-    }
-
-
-    evoPlayer(dt) {
-        // friction
-        if (this.speed > 0) {
-            this.speed = max(this.speed - this.friction * dt, 0)
-        } else if (this.speed < 0) {
-            this.speed = min(this.speed + this.friction * dt, 0)
-        }
     }
 
     draw() {
@@ -75,6 +69,17 @@ class Ship extends Platform {
             line(0, 0, 40, 0)
         }
         restore()
+    }
+
+    dumpInfo() {
+        return {
+            name: this.name,
+            x: round(this.pos.x * 10)/10,
+            y: round(this.pos.y * 10)/10,
+
+            linear: `${round(this.momentum.x*10)/10}:${round(this.momentum.y*10)/10}`,
+            angular: `${round(this.angularMomentum.val*10)/10}`
+        }
     }
 
 }

@@ -3,6 +3,8 @@ const _port = {
     DNA:  'SlideCamera',
     name: 'port',
 
+    speed: 300,
+
     zoomOnPlusMinus: true,
 
     pick: function(ux, uy, list, opt) {
@@ -22,6 +24,7 @@ const _port = {
         return last
     },
 
+    /*
     // follow a target if one is defined
     // Shouldn't be called manually.
     // It is called automatically as a part of evo(dt) process
@@ -50,5 +53,6 @@ const _port = {
             this.y += abs(ndy) < abs(dy)? ndy : dy
         }
     }
+    */
 }
 

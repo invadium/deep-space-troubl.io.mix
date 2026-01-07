@@ -33,19 +33,24 @@ class PlayerControl {
     }
 
     evo(dt) {
+        const __ = this.__
         const controls = this.controls
 
         if (controls[dry.LEFT]) {
-            this.__.rot -= this.turnRate * dt
+            __.thruster.turnLeft(dt)
+            //__.rot -= this.turnRate * dt
         }
         if (controls[dry.RIGHT]) {
-            this.__.rot += this.turnRate * dt
+            __.thruster.turnRight(dt)
+            //__.rot += this.turnRate * dt
         }
 
         if (controls[dry.UP]) {
-            this.speed = clamp(this.speed + this.acceleration * dt, this.minSpeed, this.maxSpeed)
+            __.thruster.moveForward(dt)
+            //this.speed = clamp(this.speed + this.acceleration * dt, this.minSpeed, this.maxSpeed)
         } else if (controls[dry.DOWN]) {
-            this.speed = clamp(this.speed - this.acceleration * dt, this.minSpeed, this.maxSpeed)
+            __.thruster.moveBackward(dt)
+            //this.speed = clamp(this.speed - this.acceleration * dt, this.minSpeed, this.maxSpeed)
         }
     }
 }

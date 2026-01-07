@@ -7,7 +7,7 @@ class Body extends sys.LabFrame {
                 y: 0,
             },
             rot:  math.rnda(),
-            mass: 100,
+            mass: 1,
 
             r:    100,
         }, st) )

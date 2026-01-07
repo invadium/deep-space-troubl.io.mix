@@ -4,15 +4,52 @@ class Thruster {
         augment(this, {
             name: 'thruster',
 
-            turnRate: .75 * PI,
-            acceleration: 120,
-            friction:     35,
-            maxSpeed:     180,
-            minSpeed:     -120,
+            accelerationForce: 240,
+            decelerationForce: 240,
+            maxSpeed:          400,
+
+            turnForce:         16 * PI,
+            maxTurnSpeed:      PI,
         }, st)
     }
 
-    evo(dt) {
+    moveForward(dt) {
+        const __ = this.__
+        const momentum = __.momentum
+        if (momentum.mag() >= this.maxSpeed) return
+
+        const amount = (this.accelerationForce/__.mass) * dt
+        const dx = amount * cos(__.rot)
+        const dy = amount * sin(__.rot)
+
+        momentum.add(dx, dy)
     }
 
+    moveBackward(dt) {
+        const __ = this.__
+        const momentum = __.momentum
+        if (momentum.mag() >= this.maxSpeed) return
+
+        const amount = (this.decelerationForce/__.mass) * dt
+        const dx = amount * cos(__.rot)
+        const dy = amount * sin(__.rot)
+
+        momentum.sub(dx, dy)
+    }
+
+    turnLeft(dt) {
+        const __ = this.__
+        const angularMomentum = __.angularMomentum
+        if (angularMomentum.mag() >= this.maxTurnSpeed) return
+
+        angularMomentum.val -= (this.turnForce/__.mass) * dt
+    }
+
+    turnRight(dt) {
+        const __ = this.__
+        const angularMomentum = __.angularMomentum
+        if (angularMomentum.mag() >= this.maxTurnSpeed) return
+
+        angularMomentum.val += (this.turnForce/__.mass) * dt
+    }
 }
