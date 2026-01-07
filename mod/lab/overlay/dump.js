@@ -3,14 +3,15 @@ function draw() {
     if (env.playerShip) {
         const info = env.playerShip.dumpInfo()
 
+        const f = env.style.font.main.head
         const ystep = 35
 
         let bx = 20,
-            by = ctx.height - 40
+            by = ctx.height - 60
 
         alignLeft()
         baseBottom()
-        font('30px pixel-operator')
+        font(f)
         fill(.15, .6, .6)
 
         const keys = Object.keys(info)
