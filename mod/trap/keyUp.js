@@ -1,6 +1,6 @@
 function cutOff(action) {
     if (!env.playerShip) return
-    env.playerShip.cutOff(action)
+    env.playerShip.playerControl.cutOff(action)
 }
 
 function keyUp(e) {

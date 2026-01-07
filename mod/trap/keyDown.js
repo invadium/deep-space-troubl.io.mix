@@ -1,6 +1,6 @@
 function actuate(action) {
     if (!env.playerShip) return
-    env.playerShip.actuate(action)
+    env.playerShip.playerControl.actuate(action)
 }
 
 function keyDown(e) {
