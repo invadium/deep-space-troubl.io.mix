@@ -45,7 +45,8 @@ class Asteroid extends Body {
         //stroke('#94908D')
         //circle(0, 0, r)
 
-        fill('#94908D')
+        // fill('#94908D')
+        fill('#ad8863')
         points.forEach((p, i) => {
             if (i === 0) {
                 moveTo(p.x, p.y)

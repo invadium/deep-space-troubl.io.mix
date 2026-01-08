@@ -9,41 +9,53 @@ class Exhaust {
             opt: [
                 // NONE
                 {},
-                // UP
+                // UP - retro-rockets
                 {
                     fq:     1/100,
-                    dx:     35,
+                    dx:     52,
                     dy:     0,
                     bsize:  2,
-                    vsize:  1,
-                    spread: 10,
+                    vsize:  2,
+                    spread: 5,
+                    thrustVector: 0,
+                    thrustSpread: .0375 * PI,
+                    thrustSpeed:  20,
                 },
-                // LEFT
+                // LEFT - attitude
                 {
-                    fq:     1/40,
+                    fq:     1/80,
                     dx:     38,
-                    dy:    -5,
+                    dy:    -10,
                     bsize:  1,
                     vsize:  1,
                     spread: 10,
+                    thrustVector: 0,
+                    thrustSpread: .125 * PI,
+                    thrustSpeed:  10,
                 },
-                // DOWN
+                // DOWN - the main engine
                 {
-                    fq:     1/100,
-                    dx:     -30,
+                    fq:     1/150,
+                    dx:     -28,
                     dy:      0,
-                    bsize:   3,
-                    vsize:   2,
-                    spread:  20,
+                    bsize:   2,
+                    vsize:   3,
+                    spread:  5,
+                    thrustVector: PI,
+                    thrustSpread: .075 * PI,
+                    thrustSpeed:  20,
                 },
-                // RIGHT
+                // RIGHT - attitude
                 {
-                    fq:      1/40,
+                    fq:      1/80,
                     dx:      38,
-                    dy:      5,
+                    dy:      10,
                     bsize:   1,
                     vsize:   1,
                     spread:  10,
+                    thrustVector: 0,
+                    thrustSpread: .125 * PI,
+                    thrustSpeed:  10,
                 },
             ],
         }, st)
@@ -54,8 +66,11 @@ class Exhaust {
         const pos = __.pos
 
         const lshift = this.opt[dir]
-        const shift = __.upos([lshift.dx, lshift.dy])
+        const gshift = __.upos([lshift.dx, lshift.dy])
 
+        const thrustVector = (__.rot + lshift.thrustVector) + lshift.thrustSpread * (2*rnd() - 1),
+              dx = cos(thrustVector) * lshift.thrustSpeed,
+              dy = sin(thrustVector) * lshift.thrustSpeed
 
         let p
         if (this.lastDead) {
@@ -69,9 +84,11 @@ class Exhaust {
         extend(p, {
             alive:    true,
             born:     env.time,
-            x:        pos.x + shift[0] + lshift.spread * rnd(),
-            y:        pos.y + shift[1] + lshift.spread * rnd(),
-            dir:      lib.math.rnda(),
+            x:        pos.x + gshift[0] + lshift.spread * (2*rnd() - 1),
+            y:        pos.y + gshift[1] + lshift.spread * (2*rnd() - 1),
+            dx:       dx,
+            dy:       dy,
+            // dir:      lib.math.rnda(),
             size:     lshift.bsize + lshift.vsize * rnd(),
             lifespan: 1 + 1 * rnd(),
         })
@@ -103,8 +120,8 @@ class Exhaust {
                     const ageFactor = age/p.lifespan
                     alpha(1 - ageFactor)
 
-                    const x = p.x,
-                          y = p.y,
+                    const x = p.x + p.dx * age,
+                          y = p.y + p.dy * age,
                           s = p.size * (1 + 4 * ageFactor)
                     rect(x-s, y-s, 2*s, 2*s)
                 }

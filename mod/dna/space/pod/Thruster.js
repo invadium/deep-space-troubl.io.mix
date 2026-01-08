@@ -8,7 +8,7 @@ class Thruster {
             decelerationForce: 240,
             maxSpeed:          400,
 
-            turnForce:         16 * PI,
+            turnForce:         10 * PI,
             maxTurnSpeed:      PI,
         }, st)
     }

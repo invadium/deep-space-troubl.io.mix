@@ -15,7 +15,7 @@ function scene() {
     }
 
     // create some ships
-    R = 500
+    R = 700
     for(let i = 0; i < 7; i++) {
         const dist = R * rnd(),
               dir = math.rnda()
