@@ -25,11 +25,11 @@ class PlayerControl {
     }
 
     actuate(action) {
-        this.controls[action] = true
+        this.controls[action.id] = true
     }
 
     cutOff(action) {
-        this.controls[action] = false
+        this.controls[action.id] = false
     }
 
     evo(dt) {

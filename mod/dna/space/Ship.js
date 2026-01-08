@@ -29,6 +29,7 @@ class Ship extends Platform {
         this.bot = false
         env.playerShip = this
         this.playerControl.activate()
+        lab.monitor.controller.bindAll(this.playerControl)
 
         lab.port.follow(this.pos, true)
     }
@@ -36,6 +37,7 @@ class Ship extends Platform {
     release() {
         this.bot = true
         this.playerControl.deactivate()
+        lab.monitor.controller.releaseAll()
     }
 
     draw() {
