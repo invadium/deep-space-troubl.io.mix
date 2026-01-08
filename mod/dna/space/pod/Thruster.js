@@ -16,6 +16,8 @@ class Thruster {
     moveForward(dt) {
         const __ = this.__
         const momentum = __.momentum
+
+        __.exhaust.burn(dry.DOWN, dt)
         if (momentum.mag() >= this.maxSpeed) return
 
         const amount = (this.accelerationForce/__.mass) * dt
@@ -28,6 +30,8 @@ class Thruster {
     moveBackward(dt) {
         const __ = this.__
         const momentum = __.momentum
+
+        __.exhaust.burn(dry.UP, dt)
         if (momentum.mag() >= this.maxSpeed) return
 
         const amount = (this.decelerationForce/__.mass) * dt
@@ -40,6 +44,8 @@ class Thruster {
     turnLeft(dt) {
         const __ = this.__
         const angularMomentum = __.angularMomentum
+
+        __.exhaust.burn(dry.RIGHT, dt)
         if (angularMomentum.mag() >= this.maxTurnSpeed) return
 
         angularMomentum.val -= (this.turnForce/__.mass) * dt
@@ -48,6 +54,8 @@ class Thruster {
     turnRight(dt) {
         const __ = this.__
         const angularMomentum = __.angularMomentum
+
+        __.exhaust.burn(dry.LEFT, dt)
         if (angularMomentum.mag() >= this.maxTurnSpeed) return
 
         angularMomentum.val += (this.turnForce/__.mass) * dt

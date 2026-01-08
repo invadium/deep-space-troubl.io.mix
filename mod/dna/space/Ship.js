@@ -12,12 +12,15 @@ class Ship extends Platform {
             bot:   true,
         }, st) )
 
-        this.attach( new dna.pod.Thruster() )
-        this.attach( new dna.pod.PlayerControl() )
-        this.attach( new dna.pod.Friction({
-            linear:  120,
-            angular: 4 * HALF_PI,
-        }) )
+        this.attachAll([
+            new dna.pod.Thruster(),
+            new dna.pod.Exhaust(),
+            new dna.pod.Friction({
+                linear:  120,
+                angular: 4 * HALF_PI,
+            }),
+            new dna.pod.PlayerControl(),
+        ])
     }
 
     capture() {
@@ -38,11 +41,14 @@ class Ship extends Platform {
     draw() {
         const { pos, rot, r } = this
 
+        this.exhaust.preDraw()
+
         save()
         translate(pos.x, pos.y)
+
         rotate(rot + HALF_PI)
 
-        // translate(0, -.15*r)
+        translate(0, -.15*r)
 
         if (this.bot) fill('#deb935')
         else fill('#de763a')
@@ -72,12 +78,20 @@ class Ship extends Platform {
     }
 
     dumpInfo() {
+        const rot = round(math.normalizeAngle(this.rot - HALF_PI) * RAD_TO_DEG + 180)
+
+        const mag = this.momentum.mag()
+        const speed = `${round(mag*10)/10}`
+        let dir = mag === 0? 'none' : round(math.normalizeAngle(this.momentum.dir() - HALF_PI) * RAD_TO_DEG + 180)
+
         return {
             name: this.name,
             x: round(this.pos.x * 10)/10,
             y: round(this.pos.y * 10)/10,
-
-            linear: `${round(this.momentum.x*10)/10}:${round(this.momentum.y*10)/10}`,
+            rot:      rot,
+            dir:      dir,
+            speed:    speed,
+            linear:  `${round(this.momentum.x*10)/10}:${round(this.momentum.y*10)/10}`,
             angular: `${round(this.angularMomentum.val*10)/10}`
         }
     }
