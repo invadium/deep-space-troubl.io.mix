@@ -1,0 +1,33 @@
+'use strict'
+
+function help(args, line, con) {
+    con.print('available console commands:')
+
+    // list commands declared in global scope
+    if (sys.isFrame($.cmd)) {
+        const dir = $.cmd._dir
+        Object.keys(dir).forEach(name => {
+            const fn = dir[name]
+            if (sys.isFun(fn)) {
+                const args = fn.args? ' ' + fn.args : ''
+                if (sys.isString(fn.info)) con.print(name + args + ' - ' + fn.info)
+                else con.print(name)
+            }
+        })
+    }
+
+    // list local commands declared in console.mod
+    if (sys.isFrame(__$.cmd)) {
+        const dir = __$.cmd._dir
+        Object.keys(dir).forEach(name => {
+            const fn = dir[name]
+            if (sys.isFun(fn)) {
+                const args = fn.args? ' ' + fn.args : ''
+                if (sys.isString(fn.info)) con.print(name + args + ' - ' + fn.info)
+                else con.print(name)
+            }
+        })
+    }
+}
+
+help.info = 'show this message'
