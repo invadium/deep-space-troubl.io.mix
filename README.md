@@ -15,5 +15,29 @@
 * Cool Backgrounds!
 
 
+## How to Run
+
+You need [Collider.JAM](https://collider.land) to be installed in order to run/debug/develop the project:
+
+```
+npm i -g collider.jam
+```
+
+Then you can run it with ```play``` command inside the root folder:
+
+```
+jam play
+```
+
+
+## How to Debug
+
+The following debug flags are available:
+
+```
+--showSolids
+--debugControls
+```
+
 
 

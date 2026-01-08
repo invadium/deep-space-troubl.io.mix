@@ -66,7 +66,7 @@ class Exhaust {
         const pos = __.pos
 
         const lshift = this.opt[dir]
-        const gshift = __.upos([lshift.dx, lshift.dy])
+        const gshift = __.northOrientedPos([lshift.dx, lshift.dy])
 
         const thrustVector = (__.rot + lshift.thrustVector) + lshift.thrustSpread * (2*rnd() - 1),
               dx = cos(thrustVector) * lshift.thrustSpeed,

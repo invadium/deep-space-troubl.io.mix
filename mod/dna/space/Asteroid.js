@@ -9,7 +9,15 @@ class Asteroid extends Body {
             name: 'asteroid' + (++id),
 
             points: [],
+
+            _hittable: true,
         }, st) )
+
+        this.attachAll([
+            new dna.pod.SolidCircle({
+                r: .7 * this.r,
+            }),
+        ])
 
         this.shape()
 

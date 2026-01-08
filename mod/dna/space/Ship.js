@@ -9,7 +9,8 @@ class Ship extends Platform {
             name: 'ship' + (++id),
             r:     40,
 
-            bot:   true,
+            bot:       true,
+            _hittable: true,
         }, st) )
 
         this.attachAll([
@@ -18,6 +19,9 @@ class Ship extends Platform {
             new dna.pod.Friction({
                 linear:  120,
                 angular: 4 * HALF_PI,
+            }),
+            new dna.pod.SolidCircle({
+                r: 30,
             }),
             new dna.pod.PlayerControl(),
         ])
@@ -47,9 +51,9 @@ class Ship extends Platform {
 
         save()
         translate(pos.x, pos.y)
-
         rotate(rot + HALF_PI)
 
+        save()
         translate(0, -.15*r)
 
         if (this.bot) fill('#deb935')
@@ -62,6 +66,7 @@ class Ship extends Platform {
             .7*r,    r,
         )
 
+        restore()
         super.draw()
 
         restore()

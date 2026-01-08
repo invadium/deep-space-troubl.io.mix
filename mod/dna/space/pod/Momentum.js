@@ -55,10 +55,47 @@ class Momentum {
     }
 
     evo(dt) {
-        const pos = this.__.pos
+        const _   = this,
+              __  = _.__,
+              pos = __.pos,
+              px  = pos.x,
+              py  = pos.y
 
-        pos.x += this.x * dt
-        pos.y += this.y * dt
+        // make the move
+        pos.x += _.x * dt
+        pos.y += _.y * dt
+
+        let contact = false
+        __.solid.inContact = false
+        // resolve collisions
+        lab.overlord.collider.contact(__.solid, (target, targetSolid, contactData) => {
+            // log(`${__.name} => ${target.name}`)
+            // console.dir(contactData)
+            contact = true
+            __.solid.inContact = true
+            targetSolid.inContact = true
+
+            target.momentum.x *= -1
+            target.momentum.y *= -1
+        })
+
+        if (contact) {
+            pos.x = px
+            pos.y = py
+            _.x = -_.x
+            _.y = -_.y
+        }
+
+        /*
+        // DEBUG
+        // detect more collisions
+        // TODO maybe do it in a while to detect the stuck objects and release them?
+        if (__ instanceof dna.space.Ship) {
+            lab.overlord.collider.contact(__.solid, (target, targetSolid, contactData) => {
+                console.log(`${px}:${py} -> ${nx}:${ny} => ${pos.x}:${pos.y} (contact: ${contact})`)
+            })
+        }
+        */
     }
 
 }
